@@ -1,7 +1,8 @@
 "use client"
 import Card from "@/components/Card/Card";
 import styled from "styled-components";
-
+import Image from "next/image";
+import logo from "../../public/soñe-que-volaba.png"
 const CustomMain = styled.main`
   height: 100dvh;
   display: flex;
@@ -15,7 +16,7 @@ const CustomMain = styled.main`
 export default function Home() {
   return (
     <CustomMain>
-      hola olga
+      <Image src={logo} alt="hola olga"/>
       <Card />
     </CustomMain>
   );
