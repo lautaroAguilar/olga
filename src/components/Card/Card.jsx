@@ -13,6 +13,7 @@ const CustomCard = styled.div`
   border-radius: 20px;
   border: 10px solid #f79310;
   padding: 1rem;
+  z-index: 100;
 `;
 const CustomOption = styled.li`
   background: #f79310;
