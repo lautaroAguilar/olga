@@ -149,7 +149,7 @@ const Clouds = [
 export default function Home() {
   return (
     <CustomMain>
-      <Image src={logo} alt="hola olga" />
+      <Image src={logo} alt="Logo de Olga" style={{zIndex: 50}}/>
       <Card />
 
       {Clouds.map((cloud) => (

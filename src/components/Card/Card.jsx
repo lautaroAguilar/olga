@@ -23,6 +23,16 @@ const CustomOption = styled.li`
   padding: 1rem;
   border-radius: 4px;
   background: #70b2d4;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-2px);
+      cursor: pointer;
+      background: #0087bf;
+    }
+  }
+  &:active {
+    background: #005994;
+  }
 `;
 const CustomTitle = styled.h2`
   font-size: 28px;
