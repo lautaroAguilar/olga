@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { questions } from "@/questions";
+import Button from "../Button/Button";
 const CustomCard = styled.div`
   width: 100%;
   height: 80%;
@@ -16,23 +17,8 @@ const CustomCard = styled.div`
   z-index: 100;
 `;
 const CustomOption = styled.li`
-  background: #f79310;
   list-style: none;
   width: 100%;
-  display: inline-block;
-  padding: 1rem;
-  border-radius: 4px;
-  background: #70b2d4;
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      transform: translateY(-2px);
-      cursor: pointer;
-      background: #0087bf;
-    }
-  }
-  &:active {
-    background: #005994;
-  }
 `;
 const CustomTitle = styled.h2`
   font-size: 24px;
@@ -55,6 +41,7 @@ const ContainerScore = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
 `;
 const CustomP = styled.p`
   font-size: 1rem;
@@ -64,7 +51,7 @@ const CustomP = styled.p`
 export default function Card() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
-  /* const [isCorrect, setIsCorrect] = useState(false); */
+  const [isDisabled, setIsDisabled] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
   const handleAnswered = (correct, e) => {
@@ -81,11 +68,13 @@ export default function Card() {
 
     selectedOption.style.background = correct ? "green" : "red";
     correctOption.style.background = "green";
+    setIsDisabled(true);
     setTimeout(() => {
       if (currentQuestion === questions.length - 1) {
         setIsFinished(true);
       } else {
         setCurrentQuestion(currentQuestion + 1);
+        setIsDisabled(false);
       }
     }, 3000);
   };
@@ -94,9 +83,28 @@ export default function Card() {
     <CustomCard>
       {isFinished ? (
         <>
-          <CustomTitle>Hiciste {score} {score > 1 ? "puntos" : "punto"}</CustomTitle>
+          <CustomTitle>
+            Hiciste {score} {score === 1 ? "punto" : "puntos"}
+          </CustomTitle>
           <CustomOptionList>
             <CustomP>¿Querés jugar de vuelta?</CustomP>
+            {/* Falta la img de resultado */}
+            <ContainerScore>
+              <Button
+                text={"No"}
+                onClick={() => {
+                  console.log("salir")
+                }}
+                secondary
+              />
+              <Button
+                text={"Si, mi brooodi"}
+                onClick={() => {
+                  setIsFinished(false);
+                  setCurrentQuestion(0);
+                }}
+              />
+            </ContainerScore>
           </CustomOptionList>
         </>
       ) : (
@@ -109,12 +117,12 @@ export default function Card() {
             </ContainerScore>
             <CustomOptionList>
               {questions[currentQuestion].options.map((question) => (
-                <CustomOption
+                <Button
                   key={question.text}
                   onClick={(e) => handleAnswered(question.correct, e)}
-                >
-                  {question.text}
-                </CustomOption>
+                  disabled={isDisabled}
+                  text={question.text}
+                />
               ))}
             </CustomOptionList>
           </ContainerOptions>
