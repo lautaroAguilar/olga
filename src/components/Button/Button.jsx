@@ -19,15 +19,19 @@ const CustomButton = styled.button`
   &:active {
     background: #005994;
   }
+  &:disabled {
+    background: #c4c4c4;
+    cursor: not-allowed;
+  }
 `;
-export default function Button({ onClick, text, secondary }) {
+export default function Button({ onClick, text, secondary}) {
   return (
     <CustomButton
       onClick={onClick}
       style={{
         background: secondary ? "transparent" : "",
         color: secondary ? "#F79310" : "",
-        border: secondary ? "1px solid #F79310" : ""
+        border: secondary ? "1px solid #F79310" : "",
       }}
     >
       {text}

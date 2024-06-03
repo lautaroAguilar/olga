@@ -55,30 +55,42 @@ export default function Card() {
   const [isFinished, setIsFinished] = useState(false);
 
   const handleAnswered = (correct, e) => {
+    if (isDisabled) {
+      return;
+    }
+
+    setIsDisabled(true);
+
     const selectedOption = e.target;
-    const correctOption = Array.from(selectedOption.parentNode.children).find(
-      (option) =>
-        option.textContent ===
-        questions[currentQuestion].options.find((option) => option.correct).text
-    );
+    const options = Array.from(selectedOption.parentNode.children);
+
+    options.forEach((option) => {
+      const isCorrect = questions[currentQuestion].options.find(
+        (opt) => opt.text === option.textContent
+      ).correct;
+      if (isCorrect) {
+        option.style.background = "#5AF710"; // Opción correcta en verde
+      } else {
+        option.style.background = "#CEE4F1"; // Opciones incorrectas en gris
+      }
+    });
 
     if (correct) {
       setScore(score + 1);
+      selectedOption.style.background = "#5AF710"; // Opción seleccionada correcta en verde
+    } else {
+      selectedOption.style.background = "#F71010"; // Opción seleccionada incorrecta en rojo
     }
 
-    selectedOption.style.background = correct ? "green" : "red";
-    correctOption.style.background = "green";
-    setIsDisabled(true);
     setTimeout(() => {
       if (currentQuestion === questions.length - 1) {
         setIsFinished(true);
       } else {
         setCurrentQuestion(currentQuestion + 1);
-        setIsDisabled(false);
+        setIsDisabled(false); // Volver a habilitar las opciones para la siguiente pregunta
       }
     }, 3000);
   };
-
   return (
     <CustomCard>
       {isFinished ? (
@@ -93,7 +105,7 @@ export default function Card() {
               <Button
                 text={"No"}
                 onClick={() => {
-                  console.log("salir")
+                  console.log("salir");
                 }}
                 secondary
               />
@@ -120,7 +132,6 @@ export default function Card() {
                 <Button
                   key={question.text}
                   onClick={(e) => handleAnswered(question.correct, e)}
-                  disabled={isDisabled}
                   text={question.text}
                 />
               ))}
