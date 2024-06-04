@@ -98,19 +98,11 @@ export default function Card() {
           <CustomTitle>
             Hiciste {score} {score === 1 ? "punto" : "puntos"}
           </CustomTitle>
+          {/* foto de resultado */}
           <CustomOptionList>
-            <CustomP>¿Querés jugar de vuelta?</CustomP>
-            {/* Falta la img de resultado */}
             <ContainerScore>
               <Button
-                text={"No"}
-                onClick={() => {
-                  console.log("salir");
-                }}
-                secondary
-              />
-              <Button
-                text={"Si, mi brooodi"}
+                text={"Finalizar"}
                 onClick={() => {
                   setIsFinished(false);
                   setCurrentQuestion(0);
