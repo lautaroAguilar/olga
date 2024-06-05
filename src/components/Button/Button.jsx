@@ -24,7 +24,7 @@ const CustomButton = styled.button`
     cursor: not-allowed;
   }
 `;
-export default function Button({ onClick, text, secondary, disabled }) {
+export default function Button({ onClick, text, secondary, disabled, style}) {
   return (
     <CustomButton
       onClick={onClick}
@@ -32,6 +32,7 @@ export default function Button({ onClick, text, secondary, disabled }) {
         background: secondary ? "transparent" : "",
         color: secondary ? "#F79310" : "",
         border: secondary ? "1px solid #F79310" : "",
+        ...style
       }}
       disabled={disabled}
     >
