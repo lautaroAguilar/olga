@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { questions } from "@/questions";
 import Button from "../Button/Button";
+import { useRouter, useSearchParams } from "next/navigation";
+
 const CustomCard = styled.div`
   width: 100%;
   height: 80%;
@@ -15,10 +18,6 @@ const CustomCard = styled.div`
   border: 10px solid #f79310;
   padding: 1rem;
   z-index: 100;
-`;
-const CustomOption = styled.li`
-  list-style: none;
-  width: 100%;
 `;
 const CustomTitle = styled.h2`
   font-size: 24px;
@@ -49,10 +48,13 @@ const CustomP = styled.p`
 `;
 
 export default function Card() {
+  const router = useRouter();
+  const [currentLevel, setCurrentLevel] = useState("easy");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const searchParams = useSearchParams();
 
   const handleAnswered = (correct, e) => {
     if (isDisabled) {
@@ -60,40 +62,52 @@ export default function Card() {
     }
 
     setIsDisabled(true);
-
+    /* get options and set color for correct question and the others */
     const selectedOption = e.target;
     const options = Array.from(selectedOption.parentNode.children);
 
     options.forEach((option) => {
-      const isCorrect = questions[currentQuestion].options.find(
+      const isCorrect = questions[currentLevel][currentQuestion].options.find(
         (opt) => opt.text === option.textContent
       ).correct;
       if (isCorrect) {
-        option.style.background = "#5AF710"; // Opción correcta en verde
+        option.style.background = "#5AF710"; 
       } else {
-        option.style.background = "#CEE4F1"; // Opciones incorrectas en gris
+        option.style.background = "#CEE4F1"; 
       }
     });
-
+    /* set colors for correct and incorrect questions */
     if (correct) {
       setScore(score + 1);
-      selectedOption.style.background = "#5AF710"; // Opción seleccionada correcta en verde
+      selectedOption.style.background = "#5AF710"; 
     } else {
-      selectedOption.style.background = "#F71010"; // Opción seleccionada incorrecta en rojo
+      selectedOption.style.background = "#F71010"; 
     }
 
     setTimeout(() => {
-      if (currentQuestion === questions.length - 1) {
+      if (currentQuestion === questions[currentLevel].length - 1) {
         setIsFinished(true);
       } else {
         setCurrentQuestion(currentQuestion + 1);
-        setIsDisabled(false); // Volver a habilitar las opciones para la siguiente pregunta
+        setIsDisabled(false); 
       }
     }, 3000);
   };
+  /* get level questions */
+  useEffect(() => {
+    const level = searchParams.get("level");
+    if (level && questions[level]) {
+      setCurrentLevel(level);
+    } else {
+      /* set error and show error screen or something */
+      console.error("Nivel no encontrado");
+    }
+  }, [searchParams]);
+
   return (
     <CustomCard>
       {isFinished ? (
+        /*  */
         <>
           <CustomTitle>
             Hiciste {score} {score === 1 ? "punto" : "puntos"}
@@ -104,8 +118,7 @@ export default function Card() {
               <Button
                 text={"Finalizar"}
                 onClick={() => {
-                  setIsFinished(false);
-                  setCurrentQuestion(0);
+                  router.push("/");
                 }}
               />
             </ContainerScore>
@@ -113,20 +126,26 @@ export default function Card() {
         </>
       ) : (
         <>
-          <CustomTitle>{questions[currentQuestion].title}</CustomTitle>
+          <CustomTitle>
+            {questions[currentLevel][currentQuestion].title}
+          </CustomTitle>
           <ContainerOptions>
             <ContainerScore>
               <CustomP>Puntuación {score}</CustomP>
-              <CustomP> {currentQuestion + 1} / 5</CustomP>
+              <CustomP>
+                {currentQuestion + 1} / {questions[currentLevel].length}
+              </CustomP>
             </ContainerScore>
             <CustomOptionList>
-              {questions[currentQuestion].options.map((question) => (
-                <Button
-                  key={question.text}
-                  onClick={(e) => handleAnswered(question.correct, e)}
-                  text={question.text}
-                />
-              ))}
+              {questions[currentLevel][currentQuestion].options.map(
+                (question) => (
+                  <Button
+                    key={question.text}
+                    onClick={(e) => handleAnswered(question.correct, e)}
+                    text={question.text}
+                  />
+                )
+              )}
             </CustomOptionList>
           </ContainerOptions>
         </>
