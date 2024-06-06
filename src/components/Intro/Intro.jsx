@@ -39,18 +39,15 @@ export default function Intro() {
   //const { setIntroduction } = useAppContext();;
   const router = useRouter();
   const handleEasy = () => {
-    console.log("nivel Fácil");
-    const level = "fácil"
+    const level = "easy"
     router.push(`/game?level=${level}`);
   };
   const handleMedium = () => {
-    console.log("nivel Medio");
-    const level = "medio"
+    const level = "medium"
     router.push(`/game?level=${level}`);
   };
   const handleHard = () => {
-    console.log("nivel Difícil");
-    const level = "díficil"
+    const level = "hard"
     router.push(`/game?level=${level}`);
   };
   return (
