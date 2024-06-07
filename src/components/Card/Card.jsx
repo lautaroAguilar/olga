@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { questions } from "@/questions";
+import dudoso from "../../../public/dudoso.png";
+import collab from "../../../public/collab.png";
 import Button from "../Button/Button";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const CustomCard = styled.div`
@@ -28,6 +31,13 @@ const ContainerOptions = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+`;
+const ContainerImage = styled.div`
+  width: 100%;
+  height: auto;
+  @media (min-width: 380px){
+    width: 70%;
+  }
 `;
 const CustomOptionList = styled.div`
   width: 100%;
@@ -71,17 +81,17 @@ export default function Card() {
         (opt) => opt.text === option.textContent
       ).correct;
       if (isCorrect) {
-        option.style.background = "#5AF710"; 
+        option.style.background = "#5AF710";
       } else {
-        option.style.background = "#CEE4F1"; 
+        option.style.background = "#CEE4F1";
       }
     });
     /* set colors for correct and incorrect questions */
     if (correct) {
       setScore(score + 1);
-      selectedOption.style.background = "#5AF710"; 
+      selectedOption.style.background = "#5AF710";
     } else {
-      selectedOption.style.background = "#F71010"; 
+      selectedOption.style.background = "#F71010";
     }
 
     setTimeout(() => {
@@ -89,7 +99,7 @@ export default function Card() {
         setIsFinished(true);
       } else {
         setCurrentQuestion(currentQuestion + 1);
-        setIsDisabled(false); 
+        setIsDisabled(false);
       }
     }, 3000);
   };
@@ -112,7 +122,15 @@ export default function Card() {
           <CustomTitle>
             Hiciste {score} {score === 1 ? "punto" : "puntos"}
           </CustomTitle>
-          {/* foto de resultado */}
+          {score > 3 ? (
+            <ContainerImage>
+              <Image src={collab} alt={"Imagen de Collab BRO"} style={{width: "100%", height: "auto"}}/>
+            </ContainerImage>
+          ) : (
+            <ContainerImage>
+              <Image src={dudoso} alt={"Imagen de DUDOOOSO"} style={{ width: "100%", height: "auto" }}/>
+            </ContainerImage>
+          )}
           <CustomOptionList>
             <ContainerScore>
               <Button
