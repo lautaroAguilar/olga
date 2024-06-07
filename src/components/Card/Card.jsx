@@ -101,7 +101,7 @@ export default function Card() {
         setCurrentQuestion(currentQuestion + 1);
         setIsDisabled(false);
       }
-    }, 3000);
+    }, 1500);
   };
   /* get level questions */
   useEffect(() => {

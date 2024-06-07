@@ -9,6 +9,8 @@ const CustomButton = styled.button`
   border-radius: 4px;
   border: none;
   background: #70b2d4;
+  font-weight: 600;
+  color: #fff;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       transform: translateY(-2px);
