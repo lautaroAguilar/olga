@@ -1,35 +1,11 @@
 import React from "react";
-import styled from "styled-components";
+import styles from "./Button.module.css";
 
-const CustomButton = styled.button`
-  background: #f79310;
-  width: 100%;
-  display: inline-block;
-  padding: 1rem;
-  border-radius: 4px;
-  border: none;
-  background: #70b2d4;
-  font-weight: 600;
-  color: #fff;
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      transform: translateY(-2px);
-      cursor: pointer;
-      background: #0087bf;
-    }
-  }
-  &:active {
-    background: #005994;
-  }
-  &:disabled {
-    background: #c4c4c4;
-    cursor: not-allowed;
-  }
-`;
 export default function Button({ onClick, text, secondary, disabled, style}) {
   return (
-    <CustomButton
+    <button
       onClick={onClick}
+      className={styles.button}
       style={{
         background: secondary ? "transparent" : "",
         color: secondary ? "#F79310" : "",
@@ -39,6 +15,6 @@ export default function Button({ onClick, text, secondary, disabled, style}) {
       disabled={disabled}
     >
       {text}
-    </CustomButton>
+    </button>
   );
 }

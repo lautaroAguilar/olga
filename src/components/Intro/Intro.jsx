@@ -1,65 +1,34 @@
 "use client";
 import React, { useState } from "react";
-import styled from "styled-components";
+import styles from "./Intro.module.css";
 import Button from "../Button/Button";
 import { useRouter } from "next/navigation";
-//import { useAppContext } from "@/context/useContext";
 
-const CustomIntro = styled.div`
-  width: 100%;
-  height: 80%;
-  max-width: 450px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background: #016cb2;
-  border-radius: 20px;
-  border: 10px solid #f79310;
-  padding: 1rem;
-  z-index: 100;
-`;
-const CustomTitle = styled.h2`
-  font-size: 24px;
-  text-align: center;
-`;
-const CustomP = styled.p`
-  font-size: 1rem;
-  font-weight: 450;
-  text-align: center;
-`;
-const CustomY = styled.div`
-  width: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
 export default function Intro() {
   //const { setIntroduction } = useAppContext();;
   const router = useRouter();
   const handleEasy = () => {
-    const level = "easy"
+    const level = "easy";
     router.push(`/game?level=${level}`);
   };
   const handleMedium = () => {
-    const level = "medium"
+    const level = "medium";
     router.push(`/game?level=${level}`);
   };
   const handleHard = () => {
-    const level = "hard"
+    const level = "hard";
     router.push(`/game?level=${level}`);
   };
   return (
-    <CustomIntro>
-      <CustomY>
-        <CustomTitle>Bienvenido a SQV Quiz</CustomTitle>
-        <CustomP>
+    <div className={styles.intro}>
+      <div className={styles.containerY}>
+        <h2 className={styles.title}>Bienvenido a SQV Quiz</h2>
+        <p className={styles.paragraph}>
           Este es un juego de preguntas y respuestas sobre Soñé Que Volaba.
           Demostrá cuanto sabes del show en los distintos niveles de juego.
-        </CustomP>
-      </CustomY>
-      <CustomY>
+        </p>
+      </div>
+      <div className={styles.containerY}>
         <Button
           text={"Nivel Fácil"}
           style={{
@@ -93,7 +62,7 @@ export default function Intro() {
           }}
           onClick={() => handleHard()}
         />
-      </CustomY>
-    </CustomIntro>
+      </div>
+    </div>
   );
 }

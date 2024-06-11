@@ -1,61 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styles from "./Card.module.css";
 import { questions } from "@/questions";
 import dudoso from "../../../public/dudoso.png";
 import collab from "../../../public/collab.png";
 import Button from "../Button/Button";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-
-const CustomCard = styled.div`
-  width: 100%;
-  height: 80%;
-  max-width: 450px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background: #016cb2;
-  border-radius: 20px;
-  border: 10px solid #f79310;
-  padding: 1rem;
-  z-index: 100;
-`;
-const CustomTitle = styled.h2`
-  font-size: 24px;
-  text-align: center;
-`;
-const ContainerOptions = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-const ContainerImage = styled.div`
-  width: 100%;
-  height: auto;
-  @media (min-width: 380px){
-    width: 70%;
-  }
-`;
-const CustomOptionList = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-`;
-const ContainerScore = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-`;
-const CustomP = styled.p`
-  font-size: 1rem;
-  font-weight: 600;
-`;
 
 export default function Card() {
   const router = useRouter();
@@ -115,46 +66,52 @@ export default function Card() {
   }, [searchParams]);
 
   return (
-    <CustomCard>
+    <div className={styles.card}>
       {isFinished ? (
         /*  */
         <>
-          <CustomTitle>
+          <h2 className={styles.title}>
             Hiciste {score} {score === 1 ? "punto" : "puntos"}
-          </CustomTitle>
+          </h2>
           {score > 3 ? (
-            <ContainerImage>
-              <Image src={collab} alt={"Imagen de Collab BRO"} style={{width: "100%", height: "auto"}}/>
-            </ContainerImage>
-          ) : (
-            <ContainerImage>
-              <Image src={dudoso} alt={"Imagen de DUDOOOSO"} style={{ width: "100%", height: "auto" }}/>
-            </ContainerImage>
-          )}
-          <CustomOptionList>
-            <ContainerScore>
-              <Button
-                text={"Finalizar"}
-                onClick={() => {
-                  router.push("/");
-                }}
+            <div className={styles.image}>
+              <Image
+                src={collab}
+                alt={"Imagen de Collab BRO"}
+                style={{ width: "100%", height: "auto" }}
               />
-            </ContainerScore>
-          </CustomOptionList>
+            </div>
+          ) : (
+            <div className={styles.image}>
+              <Image
+                src={dudoso}
+                alt={"Imagen de DUDOOOSO"}
+                style={{ width: "100%", height: "auto" }}
+              />
+            </div>
+          )}
+          <div className={styles.image}>
+            <Button
+              text={"Finalizar"}
+              onClick={() => {
+                router.push("/");
+              }}
+            />
+          </div>
         </>
       ) : (
         <>
-          <CustomTitle>
+          <h2 className={styles.title}>
             {questions[currentLevel][currentQuestion].title}
-          </CustomTitle>
-          <ContainerOptions>
-            <ContainerScore>
-              <CustomP>Puntuación {score}</CustomP>
-              <CustomP>
+          </h2>
+          <div className={styles.options}>
+            <div className={styles.score}>
+              <p className={styles.paragraph}>Puntuación {score}</p>
+              <p className={styles.paragraph}>
                 {currentQuestion + 1} / {questions[currentLevel].length}
-              </CustomP>
-            </ContainerScore>
-            <CustomOptionList>
+              </p>
+            </div>
+            <div className={styles.optionsList}>
               {questions[currentLevel][currentQuestion].options.map(
                 (question) => (
                   <Button
@@ -164,10 +121,10 @@ export default function Card() {
                   />
                 )
               )}
-            </CustomOptionList>
-          </ContainerOptions>
+            </div>
+          </div>
         </>
       )}
-    </CustomCard>
+    </div>
   );
 }
