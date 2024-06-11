@@ -31,7 +31,12 @@ export default function RootLayout({ children }) {
             position: "relative",
           }}
         >
-          <Image src={logo} alt="Logo de Olga" style={{ zIndex: 50 }} />
+          <Image
+            priority
+            src={logo}
+            alt="Logo de Olga"
+            style={{ zIndex: 50 }}
+          />
           {children}
           {Clouds.map((cloud) => (
             <Cloud key={cloud.id} style={cloud.styles} />
