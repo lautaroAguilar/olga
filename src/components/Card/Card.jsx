@@ -90,7 +90,7 @@ export default function Card() {
               />
             </div>
           )}
-          <div className={styles.image}>
+          <div className={styles.score}>
             <Button
               text={"Finalizar"}
               onClick={() => {
